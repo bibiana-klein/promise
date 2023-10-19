@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        async function creatPromise(){
+            return new Promise (
+                function (resolve, reject){
+                    //fazendo uma requisição ajax
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('GET', "dados.json",true);
+                    
+                    //tratamento de retorno
+                    xhr.onreadystatechange = function(){
+                        if (xhr.readyState == 4){
+                            if (xhr.status == 200){
+                                resolve(xhr.responseText);
+                            }else{
+                                reject(xhr.status);
+                            }
+                        }
+                    }
+                    xhr.send();
+                }
+            );
+        }
+        const main = async ()=>{
+            try{
+                const response = await creatPromise("data.json");
+                console.log(response);
+            }catch(error){
+                console.log(error);
+            }
+        }
+
+        creatPromise()
+        .then(function(response){
+            console.log(response);
+        })
+        .catch(function(error){
+            console.log(error);
+        })
+
+        main();
+        
+    </script>
+
+</body>
+</html>
